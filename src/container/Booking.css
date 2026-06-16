@@ -1,0 +1,906 @@
+/* Booking.css - Complete Styles */
+
+/* ============================================
+   MAIN CARD STYLES
+   ============================================ */
+
+.booking-card {
+  border-radius: 25px !important;
+  overflow: hidden;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+  border: none !important;
+  box-shadow: 0 20px 60px rgba(14, 67, 17, 0.1) !important;
+}
+
+/* ============================================
+   STEP HEADER STYLES
+   ============================================ */
+
+.step-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #0e4311;
+}
+
+.step-title {
+  color: #0e4311;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.step-icon {
+  margin-right: 12px;
+  font-size: 1.8rem;
+}
+
+/* ============================================
+   STEP CONTENT ANIMATION
+   ============================================ */
+
+.step-content {
+  animation: fadeSlideIn 0.4s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+   SERVICE CARDS
+   ============================================ */
+
+.service-card {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  height: 100%;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(14, 67, 17, 0.1);
+  border-color: #0e4311;
+}
+
+.service-card.active {
+  border-color: #0e4311;
+  background: linear-gradient(135deg, #f0f7f0 0%, #ffffff 100%);
+  box-shadow: 0 8px 25px rgba(14, 67, 17, 0.15);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.service-name {
+  color: #0e4311;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.service-desc {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.service-check {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #0e4311;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(14, 67, 17, 0.3);
+}
+
+/* ============================================
+   STEP INDICATORS
+   ============================================ */
+
+.step-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+  position: relative;
+  padding: 10px 0;
+}
+
+.step-indicators::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: #dee2e6;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.step-dot {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #6c757d;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.step-dot.active {
+  background: #0e4311;
+  border-color: #0e4311;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(14, 67, 17, 0.3);
+}
+
+.step-dot:hover:not(.active) {
+  transform: scale(1.05);
+  border-color: #0e4311;
+  background: #f0f7f0;
+}
+
+/* ============================================
+   STEP LABELS
+   ============================================ */
+
+.step-label {
+  color: #adb5bd;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  font-size: 0.85rem;
+}
+
+.step-label.active {
+  color: #0e4311;
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+
+.custom-progress {
+  border-radius: 20px !important;
+  background: #e9ecef !important;
+  overflow: hidden;
+}
+
+.custom-progress .progress-bar {
+  background: linear-gradient(90deg, #0e4311, #1a7a1f) !important;
+  border-radius: 20px !important;
+  transition: width 0.5s ease;
+}
+
+/* ============================================
+   TOGGLE CARDS
+   ============================================ */
+
+.toggle-card {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.toggle-card:hover {
+  border-color: #0e4311;
+  background: #f0f7f0;
+}
+
+.custom-switch .form-check-input {
+  width: 3em !important;
+  height: 1.5em !important;
+  cursor: pointer;
+}
+
+.custom-switch .form-check-input:checked {
+  background-color: #0e4311 !important;
+  border-color: #0e4311 !important;
+}
+
+.custom-switch .form-check-label {
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* ============================================
+   SUCCESS ALERT
+   ============================================ */
+
+.success-alert {
+  border: none !important;
+  background: linear-gradient(135deg, #f0f7f0 0%, #e8f5e9 100%) !important;
+  border-radius: 16px !important;
+}
+
+.success-icon {
+  font-size: 3rem;
+}
+
+/* ============================================
+   FORM CONTROLS
+   ============================================ */
+
+.form-control-lg,
+.form-select-lg {
+  border-radius: 12px !important;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.form-control-lg:focus,
+.form-select-lg:focus {
+  border-color: #0e4311;
+  box-shadow: 0 0 0 0.2rem rgba(14, 67, 17, 0.15);
+}
+
+.form-control-lg.is-invalid,
+.form-select-lg.is-invalid {
+  border-color: #dc3545;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn-success {
+  background-color: #0e4311 !important;
+  border-color: #0e4311 !important;
+  transition: all 0.3s ease;
+  border-radius: 12px !important;
+  font-weight: 600;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(14, 67, 17, 0.3);
+  background-color: #0a330d !important;
+}
+
+.btn-success:disabled {
+  transform: none !important;
+  opacity: 0.7;
+}
+
+.btn-outline-secondary {
+  border-radius: 12px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  transform: translateX(-2px);
+}
+
+/* ============================================
+   CALENDAR STYLES
+   ============================================ */
+
+.calendar-container {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.calendar-container:hover {
+  border-color: #0e4311;
+  box-shadow: 0 4px 15px rgba(14, 67, 17, 0.1);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
+}
+
+.calendar-month {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0e4311;
+}
+
+.calendar-nav {
+  background: none !important;
+  border: none !important;
+  font-size: 1.5rem;
+  padding: 0.25rem 0.75rem;
+  color: #0e4311;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.calendar-nav:hover {
+  background: #f0f7f0 !important;
+  border-radius: 50%;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #6c757d;
+  padding: 0.5rem 0;
+}
+
+.calendar-day {
+  text-align: center;
+  padding: 0.5rem 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  min-height: 65px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 2px solid transparent;
+}
+
+.calendar-day:hover:not(.disabled) {
+  background: #f0f7f0;
+  transform: scale(1.05);
+  border-color: #0e4311;
+}
+
+.calendar-day .day-number {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.calendar-day.today {
+  border-color: #0e4311;
+  background: #f8f9fa;
+}
+
+.calendar-day.today .day-number {
+  color: #0e4311;
+  font-weight: 700;
+}
+
+.calendar-day.selected {
+  background: #0e4311;
+  border-color: #0e4311;
+}
+
+.calendar-day.selected .day-number {
+  color: white;
+}
+
+.calendar-day.disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  background: #f8f9fa;
+}
+
+.calendar-day.disabled:hover {
+  transform: none;
+}
+
+.calendar-day.partial {
+  background: #fff3cd;
+  border-color: #ffc107;
+}
+
+.calendar-day.full {
+  background: #f8d7da;
+  border-color: #dc3545;
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+/* ============================================
+   AVAILABILITY BADGES
+   ============================================ */
+
+.availability-badge {
+  font-size: 0.6rem;
+  padding: 0.2rem 0.4rem;
+  margin-top: 2px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.availability-badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #856404;
+}
+
+.availability-badge.bg-danger {
+  background-color: #dc3545 !important;
+  color: white;
+}
+
+.availability-badge.bg-success {
+  background-color: #28a745 !important;
+  color: white;
+}
+
+/* ============================================
+   CALENDAR LEGEND
+   ============================================ */
+
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e9ecef;
+  flex-wrap: wrap;
+}
+
+.calendar-legend span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid #dee2e6;
+}
+
+.legend-dot.available {
+  background: #28a745;
+}
+
+.legend-dot.partial {
+  background: #ffc107;
+}
+
+.legend-dot.full {
+  background: #dc3545;
+}
+
+.legend-dot.selected {
+  background: #0e4311;
+}
+
+/* ============================================
+   TIME SLOTS
+   ============================================ */
+
+.time-slots-container {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  border: 2px solid #e9ecef;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.time-slots-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.time-slots-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.time-slots-container::-webkit-scrollbar-thumb {
+  background: #0e4311;
+  border-radius: 10px;
+}
+
+.time-slots-container::-webkit-scrollbar-thumb:hover {
+  background: #0a330d;
+}
+
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.time-slot {
+  padding: 10px 8px;
+  text-align: center;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+  background: white;
+}
+
+.time-slot:hover:not(.selected) {
+  background: #f0f7f0;
+  border-color: #0e4311;
+  transform: scale(1.02);
+}
+
+.time-slot.selected {
+  background: #0e4311;
+  color: white;
+  border-color: #0e4311;
+  box-shadow: 0 4px 15px rgba(14, 67, 17, 0.3);
+}
+
+.time-slots-info {
+  margin-top: 0.75rem;
+  text-align: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.select-date-message,
+.no-slots-message {
+  animation: fadeSlideIn 0.3s ease;
+}
+
+.selected-info {
+  animation: fadeSlideIn 0.3s ease;
+  margin-top: 1rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets and small desktops */
+@media (max-width: 992px) {
+  .calendar-day {
+    min-height: 60px;
+  }
+  
+  .time-slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .booking-card .card-body {
+    padding: 1.5rem !important;
+  }
+
+  .step-title {
+    font-size: 1.2rem;
+  }
+
+  .step-icon {
+    font-size: 1.4rem;
+  }
+
+  .step-indicators {
+    gap: 20px;
+  }
+
+  .step-indicators::before {
+    left: 10%;
+    right: 10%;
+  }
+
+  .step-dot {
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+  }
+
+  .service-card {
+    padding: 1rem;
+  }
+
+  .service-icon {
+    font-size: 2rem;
+  }
+
+  .service-name {
+    font-size: 1rem;
+  }
+
+  .display-4 {
+    font-size: 2rem !important;
+  }
+
+  .calendar-day {
+    min-height: 55px;
+    padding: 0.3rem 0;
+  }
+  
+  .calendar-day .day-number {
+    font-size: 0.85rem;
+  }
+  
+  .availability-badge {
+    font-size: 0.5rem;
+    padding: 0.1rem 0.3rem;
+  }
+  
+  .calendar-legend {
+    gap: 0.75rem;
+    font-size: 0.7rem;
+  }
+  
+  .time-slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .time-slot {
+    font-size: 0.8rem;
+    padding: 8px 6px;
+  }
+
+  .step-label {
+    font-size: 0.7rem;
+  }
+  
+  .btn {
+    font-size: 0.9rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 576px) {
+  .booking-card .card-body {
+    padding: 1rem !important;
+  }
+
+  .step-indicators {
+    gap: 12px;
+  }
+
+  .step-indicators::before {
+    left: 8%;
+    right: 8%;
+  }
+
+  .step-dot {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .calendar-day {
+    min-height: 45px;
+    padding: 0.2rem 0;
+  }
+  
+  .calendar-day .day-number {
+    font-size: 0.75rem;
+  }
+  
+  .availability-badge {
+    font-size: 0.45rem;
+    padding: 0.05rem 0.25rem;
+  }
+  
+  .time-slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+  
+  .time-slot {
+    font-size: 0.7rem;
+    padding: 6px 4px;
+  }
+
+  .calendar-legend {
+    gap: 0.5rem;
+    font-size: 0.6rem;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .service-card {
+    padding: 0.75rem;
+  }
+
+  .service-icon {
+    font-size: 1.5rem;
+  }
+
+  .service-name {
+    font-size: 0.9rem;
+  }
+
+  .service-desc {
+    font-size: 0.8rem;
+  }
+
+  .display-4 {
+    font-size: 1.75rem !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 400px) {
+  .step-indicators {
+    gap: 8px;
+  }
+
+  .step-dot {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
+
+  .step-label {
+    font-size: 0.6rem;
+  }
+
+  .calendar-day {
+    min-height: 40px;
+    padding: 0.15rem 0;
+  }
+
+  .calendar-day .day-number {
+    font-size: 0.65rem;
+  }
+
+  .time-slot {
+    font-size: 0.6rem;
+    padding: 4px 3px;
+  }
+
+  .calendar-legend span {
+    font-size: 0.55rem;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .booking-card {
+    box-shadow: none !important;
+    border: 1px solid #dee2e6 !important;
+  }
+  
+  .btn,
+  .step-dot,
+  .calendar-nav,
+  .service-card {
+    cursor: default !important;
+  }
+  
+  .btn:hover,
+  .step-dot:hover,
+  .service-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-success-custom {
+  color: #0e4311;
+}
+
+.bg-success-custom {
+  background-color: #0e4311;
+}
+
+.border-success-custom {
+  border-color: #0e4311;
+}
+
+.shadow-success {
+  box-shadow: 0 4px 15px rgba(14, 67, 17, 0.15);
+}
+
+.shadow-success-lg {
+  box-shadow: 0 8px 30px rgba(14, 67, 17, 0.2);
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .step-content,
+  .service-card,
+  .calendar-day,
+  .time-slot,
+  .btn,
+  .step-dot {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .service-card:hover,
+  .calendar-day:hover,
+  .time-slot:hover {
+    transform: none !important;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.calendar-day:focus-visible,
+.time-slot:focus-visible,
+.service-card:focus-visible,
+.step-dot:focus-visible {
+  outline: 3px solid #0e4311;
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .calendar-day {
+    border-width: 3px;
+  }
+  
+  .calendar-day.selected {
+    background: #0e4311 !important;
+    color: white !important;
+  }
+  
+  .calendar-day.partial {
+    background: #ffc107 !important;
+    border-color: #856404 !important;
+  }
+  
+  .calendar-day.full {
+    background: #dc3545 !important;
+    border-color: #721c24 !important;
+    color: white !important;
+  }
+}

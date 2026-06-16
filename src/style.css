@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hero-carousel,
+.carousel-inner,
+.carousel-item {
+  height: 100vh;
+}
+
+.hero-slide {
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.hero-content {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 900px;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.4rem;
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+.book-btn {
+  background: #43b047;
+  border: none;
+  padding: 15px 45px;
+  font-size: 1.2rem;
+  border-radius: 12px;
+}
+
+.book-btn:hover {
+  background: #37953b;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 8%;
+}
+
+.carousel-indicators {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.7rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+}

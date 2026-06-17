@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('../models');
@@ -13,20 +12,55 @@ const gardenDetailRoutes = require('./routes/gardenDetailRoutes');
 const buildingDetailRoutes = require('./routes/buildingDetailRoutes');
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
+const API_PREFIX = '/api';
 
-// Middleware
-app.use(cors());
+// ============================================
+// CORS CONFIGURATION - Allow your frontend
+// ============================================
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',  // Vite default port
+    'http://localhost:3000',  // React default port
+    'http://localhost:3001',
+    'http://localhost:3002'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'X-Requested-With',
+    'Accept',
+    'Origin'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// ============================================
+// MIDDLEWARE
+// ============================================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use('/api/users', userRoutes);
-app.use('/api/service-types', serviceTypeRoutes);
-app.use('/api/availability', availabilityRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/garden-details', gardenDetailRoutes);
-app.use('/api/building-details', buildingDetailRoutes);
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalUrl}`);
+  next();
+});
+
+// ============================================
+// ROUTES
+// ============================================
+app.use(`${API_PREFIX}/users`, userRoutes);
+app.use(`${API_PREFIX}/service-types`, serviceTypeRoutes);
+app.use(`${API_PREFIX}/availability`, availabilityRoutes);
+app.use(`${API_PREFIX}/bookings`, bookingRoutes);
+app.use(`${API_PREFIX}/garden-details`, gardenDetailRoutes);
+app.use(`${API_PREFIX}/building-details`, buildingDetailRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {
@@ -43,12 +77,12 @@ app.get('/', (req, res) => {
     status: 'success',
     message: 'Welcome to Cleaning Service API',
     endpoints: {
-      users: '/api/users',
-      serviceTypes: '/api/service-types',
-      availability: '/api/availability',
-      bookings: '/api/bookings',
-      gardenDetails: '/api/garden-details',
-      buildingDetails: '/api/building-details',
+      users: `${API_PREFIX}/users`,
+      serviceTypes: `${API_PREFIX}/service-types`,
+      availability: `${API_PREFIX}/availability`,
+      bookings: `${API_PREFIX}/bookings`,
+      gardenDetails: `${API_PREFIX}/garden-details`,
+      buildingDetails: `${API_PREFIX}/building-details`,
       health: '/health'
     }
   });
@@ -68,6 +102,8 @@ app.use(ErrorHandler.handleError);
 // Start Server
 app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📡 API prefix: ${API_PREFIX}`);
+  console.log(`🔗 CORS allowed origins: http://localhost:5173, http://localhost:3000`);
   console.log(`📍 Health check: http://localhost:${PORT}/health`);
   
   try {

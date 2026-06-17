@@ -1,28 +1,44 @@
 const { User } = require('../../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { AppError } = require('../utils/errorHandler');
-const { validateEmail, validatePassword } = require('../utils/validation');
+const { AppError } = require('../middlewares/errorHandler');
+
+// Hardcoded JWT secret (change this in production)
+const JWT_SECRET = 'your_jwt_secret_key_here_please_change_this';
+const JWT_EXPIRES_IN = '7d';
 
 class UserService {
   // Register new user
   static async register(userData) {
     const { fullName, email, password, role } = userData;
 
-    // Validate email
-    if (!validateEmail(email)) {
+    // Validate required fields
+    if (!fullName) {
+      throw new AppError('Full name is required', 400);
+    }
+
+    if (!email) {
+      throw new AppError('Email is required', 400);
+    }
+
+    if (!password) {
+      throw new AppError('Password is required', 400);
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
       throw new AppError('Please provide a valid email', 400);
     }
 
-    // Validate password
-    if (!validatePassword(password)) {
+    // Validate password length
+    if (password.length < 6) {
       throw new AppError('Password must be at least 6 characters long', 400);
     }
 
     // Check if user already exists
     const existingUser = await User.findOne({ 
-      where: { email },
-      paranoid: false // Include soft-deleted users
+      where: { email }
     });
 
     if (existingUser) {
@@ -38,7 +54,7 @@ class UserService {
       fullName,
       email,
       passwordHash: hashedPassword,
-      role: role || 'user'
+      role: role || 'user' // Default to 'user' if not specified
     });
 
     // Remove password from response
@@ -51,8 +67,12 @@ class UserService {
   // Login user
   static async login(email, password) {
     // Validate email
-    if (!validateEmail(email)) {
-      throw new AppError('Please provide a valid email', 400);
+    if (!email) {
+      throw new AppError('Email is required', 400);
+    }
+
+    if (!password) {
+      throw new AppError('Password is required', 400);
     }
 
     // Find user
@@ -74,8 +94,8 @@ class UserService {
         email: user.email, 
         role: user.role 
       },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
     );
 
     const userResponse = user.toJSON();
@@ -128,7 +148,8 @@ class UserService {
 
     // If updating email, check if it's taken
     if (updateData.email && updateData.email !== user.email) {
-      if (!validateEmail(updateData.email)) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(updateData.email)) {
         throw new AppError('Please provide a valid email', 400);
       }
 
@@ -142,7 +163,7 @@ class UserService {
 
     // If updating password, hash it
     if (updateData.password) {
-      if (!validatePassword(updateData.password)) {
+      if (updateData.password.length < 6) {
         throw new AppError('Password must be at least 6 characters long', 400);
       }
       const saltRounds = 10;
@@ -196,7 +217,7 @@ class UserService {
     }
 
     // Validate new password
-    if (!validatePassword(newPassword)) {
+    if (newPassword.length < 6) {
       throw new AppError('New password must be at least 6 characters long', 400);
     }
 

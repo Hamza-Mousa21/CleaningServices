@@ -1,11 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5000";
+// ============================================
+// API CONFIGURATION - Fix the port
+// ============================================
+const API_CONFIG = {
+  // Your backend is on port 5000, NOT 3000
+  baseURL: "http://localhost:5000",  // ← Changed from 3000 to 5000
+  prefix: "/api",  // ← Add back the /api prefix
+  get apiUrl() {
+    return `${this.baseURL}${this.prefix}`;
+  },
+  endpoints: {
+    login: "/users/login",
+    register: "/users/register",
+  },
+  getUrl: function(endpoint) {
+    return `${this.apiUrl}${endpoint}`;
+  }
+};
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -21,6 +40,7 @@ export default function LoginPage() {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    setError("");
   };
 
   const switchMode = (mode) => {
@@ -31,19 +51,24 @@ export default function LoginPage() {
       password: "",
       confirmPassword: "",
     });
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     if (!isLogin && form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
+      setLoading(false);
       return;
     }
 
-    const url = isLogin
-      ? `${API_BASE_URL}/users/login`
-      : `${API_BASE_URL}/users/register`;
+    const endpoint = isLogin ? API_CONFIG.endpoints.login : API_CONFIG.endpoints.register;
+    const url = API_CONFIG.getUrl(endpoint);
+
+    console.log("API URL:", url); // Debug: Check the URL
 
     const body = isLogin
       ? {
@@ -51,7 +76,7 @@ export default function LoginPage() {
           password: form.password,
         }
       : {
-          name: form.name,
+          fullName: form.name,
           email: form.email,
           password: form.password,
         };
@@ -68,22 +93,29 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || data.error || "Something went wrong");
+        setError(data.message || data.error || "Something went wrong");
+        setLoading(false);
         return;
       }
 
       if (isLogin) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
 
-        navigate("/dashboard");
+        if (data.data.user.role === "admin") {
+          navigate("/");
+        } else {
+          navigate("/");
+        }
       } else {
-        alert("Account created successfully, please sign in");
+        alert("Account created successfully! Please sign in.");
         switchMode(true);
       }
     } catch (error) {
-      console.log("FETCH ERROR:", error);
-      alert("Cannot connect to backend server");
+      console.error("FETCH ERROR:", error);
+      setError("Cannot connect to server. Please check your connection.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,45 +139,25 @@ export default function LoginPage() {
         className="bg-white rounded-4 w-100 px-4 px-md-5 py-5 shadow"
         style={{
           maxWidth: 480,
-          borderTop: "5px solid transparent",
-          backgroundImage:
-            "linear-gradient(white, white), linear-gradient(90deg, #0e4311, #0e4311)",
-          backgroundOrigin: "border-box",
-          backgroundClip: "padding-box, border-box",
+          borderTop: "5px solid #0e4311",
         }}
       >
-        {/* <div className="d-flex justify-content-center mb-4">
-          <div
-            className="d-flex align-items-center justify-content-center rounded-3 text-white"
-            style={{
-              width: 64,
-              height: 64,
-              background: "linear-gradient(135deg, #0e4311, #0e4311)",
-              boxShadow: "0 6px 20px rgba(124,58,237,0.35)",
-            }}
-          >
-            <i className="bi bi-wallet2" style={{ fontSize: 28 }}></i>
-          </div>
-        </div> */}
-
         <form onSubmit={handleSubmit}>
           {isLogin ? (
             <>
-              <h2
-                className="fw-bold text-center mb-1"
-                style={{
-                  
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  color: "#0e4311",
-                }}
-              >
+              <h2 className="fw-bold text-center mb-1" style={{ color: "#0e4311" }}>
                 Welcome Back
               </h2>
 
               <p className="text-center text-secondary mb-4" style={{ fontSize: "0.92rem" }}>
-                Sign in to continue managing your budget
+                Sign in to continue
               </p>
+
+              {error && (
+                <div className="alert alert-danger py-2" role="alert">
+                  {error}
+                </div>
+              )}
 
               <div className="mb-3">
                 <label className="form-label fw-semibold d-flex align-items-center gap-2">
@@ -188,8 +200,9 @@ export default function LoginPage() {
                   background: "#0e4311",
                   border: "none",
                 }}
+                disabled={loading}
               >
-                Sign In
+                {loading ? "Signing in..." : "Sign In"}
               </button>
 
               <p className="text-center mb-3" style={{ fontSize: "0.88rem", color: "#6b7280" }}>
@@ -206,25 +219,23 @@ export default function LoginPage() {
             </>
           ) : (
             <>
-              <h2
-                className="fw-bold text-center mb-1"
-                style={{
-                  background: "linear-gradient(135deg, #7c3aed, #ec4899)",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
+              <h2 className="fw-bold text-center mb-1" style={{ color: "#0e4311" }}>
                 Create Account
               </h2>
 
               <p className="text-center text-secondary mb-4" style={{ fontSize: "0.92rem" }}>
-                Start tracking your budget today
+                Join us today
               </p>
+
+              {error && (
+                <div className="alert alert-danger py-2" role="alert">
+                  {error}
+                </div>
+              )}
 
               <div className="mb-3">
                 <label className="form-label fw-semibold d-flex align-items-center gap-2">
-                  <i className="bi bi-person" style={{ color: "#7c3aed" }}></i>
+                  <i className="bi bi-person" style={{ color: "#0e4311" }}></i>
                   Full Name
                 </label>
                 <input
@@ -241,7 +252,7 @@ export default function LoginPage() {
 
               <div className="mb-3">
                 <label className="form-label fw-semibold d-flex align-items-center gap-2">
-                  <i className="bi bi-envelope" style={{ color: "#7c3aed" }}></i>
+                  <i className="bi bi-envelope" style={{ color: "#0e4311" }}></i>
                   Email
                 </label>
                 <input
@@ -258,7 +269,7 @@ export default function LoginPage() {
 
               <div className="mb-3">
                 <label className="form-label fw-semibold d-flex align-items-center gap-2">
-                  <i className="bi bi-lock" style={{ color: "#7c3aed" }}></i>
+                  <i className="bi bi-lock" style={{ color: "#0e4311" }}></i>
                   Password
                 </label>
                 <input
@@ -275,7 +286,7 @@ export default function LoginPage() {
 
               <div className="mb-4">
                 <label className="form-label fw-semibold d-flex align-items-center gap-2">
-                  <i className="bi bi-lock" style={{ color: "#7c3aed" }}></i>
+                  <i className="bi bi-lock" style={{ color: "#0e4311" }}></i>
                   Confirm Password
                 </label>
                 <input
@@ -294,11 +305,12 @@ export default function LoginPage() {
                 type="submit"
                 className="btn w-100 fw-semibold text-white py-3 rounded-3 mb-3"
                 style={{
-                  background: "linear-gradient(90deg, #7c3aed, #ec4899)",
+                  background: "#0e4311",
                   border: "none",
                 }}
+                disabled={loading}
               >
-                Create Account
+                {loading ? "Creating Account..." : "Create Account"}
               </button>
 
               <p className="text-center mb-0" style={{ fontSize: "0.88rem", color: "#6b7280" }}>
@@ -306,7 +318,7 @@ export default function LoginPage() {
                 <span
                   className="fw-semibold"
                   role="button"
-                  style={{ color: "#7c3aed", cursor: "pointer" }}
+                  style={{ color: "#0e4311", cursor: "pointer" }}
                   onClick={() => switchMode(true)}
                 >
                   Sign in

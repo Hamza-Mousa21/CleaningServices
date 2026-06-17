@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "cleansecret",
-    "database": "booking_db",
+    "database": "cleanServiceDB",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

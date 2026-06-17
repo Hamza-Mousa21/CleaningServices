@@ -4,21 +4,29 @@ const cors = require('cors');
 const { sequelize } = require('../models');
 const { ErrorHandler } = require('./middlewares/errorHandler');
 
-// Import routes directly
+// Import routes
 const userRoutes = require('./routes/userRoutes');
 const serviceTypeRoutes = require('./routes/serviceTypeRoutes');
+const availabilityRoutes = require('./routes/availabilityRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const gardenDetailRoutes = require('./routes/gardenDetailRoutes');
+const buildingDetailRoutes = require('./routes/buildingDetailRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes - Each connected separately
+// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/service-types', serviceTypeRoutes);
+app.use('/api/availability', availabilityRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/garden-details', gardenDetailRoutes);
+app.use('/api/building-details', buildingDetailRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {
@@ -37,6 +45,10 @@ app.get('/', (req, res) => {
     endpoints: {
       users: '/api/users',
       serviceTypes: '/api/service-types',
+      availability: '/api/availability',
+      bookings: '/api/bookings',
+      gardenDetails: '/api/garden-details',
+      buildingDetails: '/api/building-details',
       health: '/health'
     }
   });
